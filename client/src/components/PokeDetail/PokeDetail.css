@@ -1,0 +1,83 @@
+*{
+	margin: 0;
+	padding: 0;
+}
+.pokeDetail{
+	width: 75%;
+	height: 55%;
+	margin: 80px auto;
+	padding: 30px 30px 10px 30px;
+	background-color: rgba(255, 255, 255, 0.7);
+	
+	
+	font-size: 30px;
+	font-family: Sans-serif;
+	-webkit-text-stroke: 0.7px black;
+	color: white;
+	
+}
+
+.title{
+	position: relative;
+	margin: 10px;
+	width: 15%;
+	height: 15%;
+	text-align: center;
+}
+.title h1{	
+	text-transform: capitalize;
+	font-size: 50px;
+	
+	color: #f6ff8dde;
+	font-size: 50px;
+}
+
+
+.img{
+	width: 30%;
+	margin: 0px auto 0px auto;
+
+}
+
+.img img{
+	width: 200px;
+	height: 200px;
+
+
+	display: block;
+	margin-left: auto;
+	margin-right: auto;
+}
+
+.poketypes{
+    display: flex;
+	position: relative;
+	text-align: center;
+	margin: auto;
+}
+.poketype{
+	position: relative;
+	margin: 0px 0px 0px 10px;
+	text-align: center;
+	
+}
+
+
+.stats{
+	text-align: center;
+	display: grid;
+	grid-template-columns: repeat(3, 1fr);
+	margin: auto;
+}
+
+.btn-return{
+	text-align: center;
+	width: 50%;
+	margin: auto;
+	background-color: rgba(52, 98, 169, 1.0);
+}
+.btn-return a{
+	text-decoration: none;
+	color: rgb(255, 255, 255);
+	-webkit-text-stroke: 0.07px black;
+}

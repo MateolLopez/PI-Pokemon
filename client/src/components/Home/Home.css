@@ -1,0 +1,108 @@
+*{
+	margin: 0px;
+	padding: 0px;
+	
+	font-family: Sans-serif;
+}
+.pokeCards{
+	border: solid 4px lightgrey;
+
+	width: 90%;
+	margin: 2% auto;
+	padding: 1%;
+	display: grid;
+	grid-template-columns: repeat(3, 1fr);
+}
+
+.nav{
+	width: 90%;
+	margin: auto;
+}
+
+.botones{
+	width: 80%;
+	display: flex;
+	margin: 5px auto 20px auto;
+	justify-content: center;
+	border-bottom: 2px solid white;
+}
+.botones div{
+	margin: 10px auto;
+}
+
+.SearchBar{
+  	display: flex;
+  	align-items: center;
+  	justify-content: center;	
+}
+
+.crearpokemon{
+  	display: flex;
+  	align-items: center;
+  	justify-content: center;
+}
+.crearpokemon a{
+	display: flex;
+	font-family: Sans-serif;
+	background:rgba(52, 98, 169, 1.0);
+	color:#fff;
+	border:none;
+	height:25px;
+	font-size:15px;
+	padding:5px;
+	cursor:pointer;
+	transition:800ms ease all;
+	outline:none;
+	text-decoration: none;
+	text-align: center;  
+
+}
+
+.refresh{
+  	display: flex;
+  	align-items: center;
+  	justify-content: center;
+	font-family: Sans-serif;
+	background:rgba(52, 98, 169, 1.0);
+	color:#fff;
+	border:none;
+	height:30px;
+	font-size:15px;
+	padding:0 2em;
+	cursor:pointer;
+	outline:none;
+}
+
+
+.filters-paged{
+	width: 80%;
+	display: flex;
+	margin: auto;
+}
+.filters-paged div{
+	margin: 5px auto;
+}
+.filters-paged label{
+	display: block;
+	font-size: 20px;
+	width: 100%;
+	font-family: Sans-serif;
+}
+
+.pagination{
+	width: 80%;
+	text-shadow: -1px 1px 0 #000,
+                          1px 1px 0 #000,
+                         1px -1px 0 #000,
+                        -1px -1px 0 #000;
+	border: solid 2px black;
+	margin: 2% auto;
+	width: 50%;
+	border-radius: 50px;
+	justify-content: space-around;
+}
+
+.pagination:hover{
+	cursor: pointer;
+}
+

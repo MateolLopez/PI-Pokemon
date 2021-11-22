@@ -1,0 +1,19 @@
+input{
+	height: 20px;
+}
+
+#searchbtn{
+	font-family: Sans-serif;
+	background:rgba(52, 98, 169, 1.0);
+	color:#fff;
+	border:none;
+	height:30px;
+	font-size:15px;
+	padding:0 2em;
+	cursor:pointer;
+	outline:none;
+}
+
+#searchbtn:hover {
+	cursor: pointer;
+}
