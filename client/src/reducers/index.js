@@ -1,4 +1,3 @@
-
 const initialState = {
 	allPokemons: [],
 	pokemons: [],
@@ -7,7 +6,7 @@ const initialState = {
 }
 
 
-export default function rootReducer(state = initialState, action) { 
+export default function rootReducer(state = initialState, action) {
 	let pokemonsArray
 	let pokemonsFinal
 
@@ -140,4 +139,3 @@ export default function rootReducer(state = initialState, action) {
 			return state
 	}
 }
-

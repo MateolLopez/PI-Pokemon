@@ -76,5 +76,3 @@ export function filterPerAttack(payload){
 		payload
 	}
 }
-
-

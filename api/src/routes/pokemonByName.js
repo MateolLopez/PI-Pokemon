@@ -5,14 +5,11 @@ const { Pokemon } = require('../db.js');
 
 
 
-//Consultar pokemon por name 
 router.get('/', async (req, res) => {
 	var { name } = req.query
 	name = name.toLowerCase()
 
-	// Vamos a buscar a la API
 	try{
-		// Traigo los pokemons de la API
 		const pokeData = await axios.get(`https://pokeapi.co/api/v2/pokemon/${name}`)
 
 		// Meto lo que me trae la API en un arreglo para poder iterarlo y traer sus props

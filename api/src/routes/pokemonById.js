@@ -29,11 +29,11 @@ router.get('/:id', async (req, res) => {
 				speed: e.stats[5].base_stat,
 				height: e.height,
 				weight: e.weight,
-				img: e.sprites.versions["generation-iii"]["emerald"].front_default,
+				img: e.sprites.other.dream_world.front_default,
 				types: e.types.map(typePoke => typePoke.type.name) 
 	        })
 	    })
-	    //console.log(pokeFinal[0])
+	    console.log(pokeFinal[0])
 	    res.send(pokeFinal[0])
 	}
 	// Si la API no devuelve nada, vamos a la DB

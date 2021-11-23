@@ -1,8 +1,8 @@
 import './App.css';
-import React from 'react'; 
+import React from 'react';
 
 // Para poder establecer rutas (ya tengo el browser router en index)
-import { Route, Switch } from "react-router-dom";
+import { Route } from "react-router-dom";
 
 import LandingPage from './components/LandingPage/LandingPage.js';
 import Home from './components/Home/Home.js';
@@ -12,12 +12,10 @@ import PokeCreate from './components/PokeCreate/PokeCreate.js';
 function App() {
   return (
     <React.Fragment>
-      <Switch>
-        <Route exact path='/' component={LandingPage} />
-        <Route path='/home' component={Home} />
-        <Route path="/pokeDetail/:id" component={PokeDetail} />
-        <Route path="/create" component={PokeCreate} />
-      </Switch>
+      <Route exact path='/' component={LandingPage} />
+      <Route exact path='/home' component={Home} />
+      <Route exact path="/pokeDetail/:id" component={PokeDetail} />
+      <Route exact path="/create" component={PokeCreate} />
     </React.Fragment>
   );
 }

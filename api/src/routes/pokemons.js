@@ -2,15 +2,12 @@ const router = require('express').Router();
 const axios = require('axios');
 const sequelize = require('sequelize');
 
-// Models
 const { Pokemon, Type } = require('../db.js');
 
-//Utils
 const url = 'https://pokeapi.co/api/v2/pokemon';
 let pokeId = 900;
 
 
-// Routes
 router.get('/', async (req, res) => {
     try{
         // 2 consultas a la API, y concatenado
@@ -19,7 +16,7 @@ router.get('/', async (req, res) => {
         // Concateno y me quedo con .results
         pokemonsListG = [...pokemonsList1.data.results, ...pokemonsList2.data.results];
         
-        // Si pokemonsListG not trae nada tiro error
+        // Si pokemonsListG no trae nada tiro error
         if(pokemonsListG.length === 0){
             res.status(404).send('No se pudo obtener la info de la API');
         }
@@ -48,7 +45,7 @@ router.get('/', async (req, res) => {
                         types: e.types.map(p => p.type.name)
                     })
                 })
-                // Traigo los pokemons de la DB
+                // Traigo los pokemons de la DB - incluyo el modelo para que haga la relación
                 const pokemonsListDb = await Pokemon.findAll({
                     include: { model: Type }
                 })
@@ -69,10 +66,9 @@ router.get('/', async (req, res) => {
 
 // Route para crear pokemon
 router.post('/', async (req, res) => {
-    // Destructuring de lo que me pasan por body para crear el pokemon
+    // Destructuring de la info pasada por body
     const { name, hp, attack, defense, speed, height, weight, img, types } = req.body;
 
-    // Create
     const pokemon = await Pokemon.create({
         id: pokeId++,
         name: name.toLowerCase(),
