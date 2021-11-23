@@ -4,7 +4,7 @@ import './Paginacion.css'
 
 export default function Paginacion({pokemonsPerPage, allPokemons, paginado}){
 	const pageNumbers = []
-
+ 
 	for(let i = 1; i <= Math.ceil(allPokemons/pokemonsPerPage); i++){
 		pageNumbers.push(i)
 	}

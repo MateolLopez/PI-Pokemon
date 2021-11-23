@@ -7,7 +7,7 @@ const initialState = {
 }
 
 
-export default function rootReducer(state = initialState, action) {
+export default function rootReducer(state = initialState, action) { 
 	let pokemonsArray
 	let pokemonsFinal
 

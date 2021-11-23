@@ -1,65 +1,102 @@
-const { Router } = require("express");
-const { Pokemon, Type } = require("../db.js");
-const { info, byName, byId } = require("../middlewares/middleware.js");
+const router = require('express').Router();
+const axios = require('axios');
+const sequelize = require('sequelize');
 
-const router = Router();
+// Models
+const { Pokemon, Type } = require('../db.js');
 
-router.get("/", async (req, res) => {
-  let { name, by } = req.query;
-  let pokemonInfo = [];
-  if (name) {
-    name = name.toLowerCase();
-    pokemonInfo = await byName(name);
-    if (!pokemonInfo.length)
-      return res.status(404).send('Pokemon not found');
-    return res.status(200).json(pokemonInfo);
-  }
+//Utils
+const url = 'https://pokeapi.co/api/v2/pokemon';
+let pokeId = 900;
 
-  pokemonInfo = await info(by);
-  if (!pokemonInfo.length) return res.json({ info: "There are no more records" });
 
-  res.json(pokemonInfo);
-});
+// Routes
+router.get('/', async (req, res) => {
+    try{
+        // 2 consultas a la API, y concatenado
+        const pokemonsList1 = await axios.get(url)
+        pokemonsList2 = await axios.get(pokemonsList1.data.next)
+        // Concateno y me quedo con .results
+        pokemonsListG = [...pokemonsList1.data.results, ...pokemonsList2.data.results];
+        
+        // Si pokemonsListG not trae nada tiro error
+        if(pokemonsListG.length === 0){
+            res.status(404).send('No se pudo obtener la info de la API');
+        }
+        // Iterado y armado de la info que se va a enviar
+        else{
+            try{
+                pokemonsListG = pokemonsListG.map(async e => {
+                    return await axios.get(e.url)
+                })
+                //console.log(pokemonsListG)
+                console.log('Este array de promises se tiene que resolver')
 
-router.get("/:id", async (req, res) => {
-  const { id } = req.params;
-  const pokemonInfo = await byId(id);
-  if (!pokemonInfo.id) return res.status(404).send('Pokemon not found');
-  res.status(200).json(pokemonInfo);
-});
+                pokemonsListG = await Promise.all(pokemonsListG)
 
-router.post("/", async (req, res) => {
-  let { name, hitpoints, attack, defense, speed, height, weight, types } =
-    req.body;
-  if (
-    isNaN(hitpoints) ||
-    isNaN(attack) ||
-    isNaN(defense) ||
-    isNaN(speed) ||
-    isNaN(height) ||
-    isNaN(weight)
-  )
-    return res.json({ info: "All arguments must be numbers" });
+                pokemonsResult = pokemonsListG.map(e => e.data)
+                //console.log(pokemonsListG)    
 
-  if (!name) return res.json({ info: "The name is required" });
+                const pokemonsFinal = [];
 
-  const exists = await Pokemon.findOne({ where: { name: name } });
-  if (exists) return res.json({ info: "The Pokemon already exists" });
+                pokemonsResult.map(e => {
+                    pokemonsFinal.push({
+                        id: e.id,
+                        name: e.name,
+                        attack: e.stats[1].base_stat,
+                        img: e.sprites.versions["generation-iii"]["emerald"].front_default,
+                        types: e.types.map(p => p.type.name)
+                    })
+                })
+                // Traigo los pokemons de la DB
+                const pokemonsListDb = await Pokemon.findAll({
+                    include: { model: Type }
+                })
+                //console.log(pokemonsListDb)
+                // Concateno los pokemones de la DB con los de la APi ya mapeados
+                return res.send(pokemonsFinal.concat(pokemonsListDb))
+            }
+            catch(err){
+                return res.status(404).json(err);
+            }
+        }
+    }
+    catch(error){
+        return res.status(404).send(error);
+    }
+})
 
-  const pokemon = await Pokemon.create({
-    name: name.toLowerCase(),
-    hitpoints: Number(hitpoints),
-    attack: Number(attack),
-    defense: Number(defense),
-    speed: Number(speed),
-    height: Number(height),
-    weight: Number(weight),
-  });
 
-  if (!types.length) types = [1];
+// Route para crear pokemon
+router.post('/', async (req, res) => {
+    // Destructuring de lo que me pasan por body para crear el pokemon
+    const { name, hp, attack, defense, speed, height, weight, img, types } = req.body;
 
-  await pokemon.setTypes(types);
-  res.json({ info: "Pokemon created!" });
-});
+    // Create
+    const pokemon = await Pokemon.create({
+        id: pokeId++,
+        name: name.toLowerCase(),
+        hp: hp,
+        attack: attack,
+        defense: defense,
+        speed: speed,
+        height: height,
+        weight: weight,
+        img: img
+    })
+    console.log(types)
+    // Le agrego los types que me pasaron por body
+    types.map(async e => {
+        let type = await Type.findAll({
+            where: {
+                name: e
+            }
+        })
+        pokemon.addType(type)
+    })
+    // Retorno
+    res.json(pokemon)
+})
 
-module.exports = router;
+
+module.exports = router

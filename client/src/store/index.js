@@ -7,7 +7,7 @@ import { composeWithDevTools } from 'redux-devtools-extension';
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-// importamos el reducer con otro nombre
+// importamos el reducer con otro nombre 
 import rootReducer from "../reducers/index";
 
 

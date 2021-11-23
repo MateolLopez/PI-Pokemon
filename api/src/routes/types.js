@@ -1,20 +1,19 @@
-const { Router } = require("express");
-const fetch = require("node-fetch");
-const { Type } = require("../db.js");
+const router = require('express').Router();
+const axios = require('axios');
+const sequelize = require('sequelize');
 
-const router = Router();
 
+// Models
+const { Type } = require('../db.js');
+
+// Route
 router.get('/', async (req, res) => {
-    const api = await fetch('https://pokeapi.co/api/v2/type');
-    const types = await api.json();
-    for( t of types.results ) {
-        const exists = await Type.findOne({where: { name: t.name }})
-        if(exists) return res.json(await Type.findAll())
-        await Type.create({ name: t.name})
-    }
-    res.json(await Type.findAll());
+	let types = await Type.findAll()
+	try{
+		return res.json(types.map(e => e.name))
+	}catch(error){
+		return res.status(404).send(error)
+	}
 })
 
-
-    
-module.exports = router;
+module.exports = router
